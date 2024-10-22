@@ -6,6 +6,9 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import routes from "./routes";
 import errorHandler from "./middlewares/errorHandler";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerOptions from "./config/swaggerConfig";
+import swaggerUi from 'swagger-ui-express';
 
 dotenv.config();
 
@@ -19,6 +22,12 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'My API Docs',
+}));
 
 app.use("/api", routes);
 
