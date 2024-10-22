@@ -1,48 +1,10 @@
 import { Router } from 'express';
-import userController from '../controllers/userController';
+import userRouter from './user.routes';
+import authRouter from './auth.routes';
 
 const router = Router();
 
-/**
- * @openapi
- * /api/users:
- *   post:
- *     summary: Create a new user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/UserInput'
- *     responses:
- *       201:
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         description: Bad request
- */
-router.post('/users', userController.createUser);
-
-/**
- * @openapi
- * /api/users:
- *   get:
- *     summary: Get all users
- *     responses:
- *       200:
- *         description: Users retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
- *       400:
- *         description: Bad request
- */
-router.get('/users', userController.getAllUsers);
+router.use('/auth', authRouter);
+router.use('/users', userRouter);
 
 export default router;
