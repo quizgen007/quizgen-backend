@@ -1,19 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import { cleanEnv, str } from 'envalid';
 import { OAuth2Client } from 'google-auth-library';
 import { authTokenSchema } from '../validators/authValidator';
-import { ValidationError } from '../errors';
+import { UnauthorizedError, ValidationError } from '../errors';
 import User from '../models/userModel';
 import jwt from 'jsonwebtoken';
 import { userSchema } from '../validators/userValidator';
-
-dotenv.config();
-
-const env = cleanEnv(process.env, {
-    GOOGLE_CLIENT_ID: str(),
-    JWT_SECRET: str(),
-});
+import env from '../config/envConfig';
 
 const client = new OAuth2Client(env.GOOGLE_CLIENT_ID);
 
@@ -56,6 +48,9 @@ const verifyGoogleToken = async (req: Request, res: Response, next: NextFunction
         if (error.isJoi) {
             // Joi validation error
             next(new ValidationError(error.details[0].message));
+        } else if (error.message.includes('Token used too late')) {
+            // Handle expired Google token
+            next(new UnauthorizedError('Google token has expired, please log in again.'));
         } else {
             next(error);
         }

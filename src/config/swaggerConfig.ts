@@ -8,7 +8,16 @@ const swaggerOptions: Options = {
             version: '1.0.0',
             description:
                 'An API application made with Express and documented with Swagger',
-        }
+        },
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',  // Optional, specify JWT format if used
+                }
+            }
+        },
     },
     apis: ['./src/routes/*.ts', './src/models/*.ts'], // Files containing annotations
 };

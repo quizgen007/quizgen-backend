@@ -1,39 +1,8 @@
 import { Router } from 'express';
 import userController from '../controllers/userController';
+import authMiddleware from '../middlewares/authMiddleware';
 
 const router = Router();
-
-/**
- * @openapi
- * tags:
- *   - name: Users
- *     description: User management
- */
-
-/**
- * @openapi
- * /api/users:
- *   post:
- *     tags:
- *       - Users
- *     summary: Create a new user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/UserInput'
- *     responses:
- *       201:
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         description: Bad request
- */
-router.post('/', userController.createUser);
 
 /**
  * @openapi
@@ -42,6 +11,8 @@ router.post('/', userController.createUser);
  *     tags:
  *       - Users
  *     summary: Get all users
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Users retrieved successfully
@@ -54,6 +25,6 @@ router.post('/', userController.createUser);
  *       400:
  *         description: Bad request
  */
-router.get('/', userController.getAllUsers);
+router.get('/', authMiddleware, userController.getAllUsers);
 
 export default router;
