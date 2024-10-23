@@ -6,6 +6,13 @@ const router = Router();
 
 /**
  * @openapi
+ * tags:
+ *   - name: Users
+ *     description: Users management
+ */
+
+/**
+ * @openapi
  * /api/users:
  *   get:
  *     tags:
