@@ -44,7 +44,7 @@ const verifyGoogleToken = async (req: Request, res: Response, next: NextFunction
             message: 'Authentication successful',
             token: jwtToken,
         });
-    } catch (error: any) {
+    } catch (error: Error | any) {
         if (error.isJoi) {
             // Joi validation error
             next(new ValidationError(error.details[0].message));

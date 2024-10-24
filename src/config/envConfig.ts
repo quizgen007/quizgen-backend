@@ -9,6 +9,7 @@ const env = cleanEnv(process.env, {
     MONGO_URI: str(),
     GOOGLE_CLIENT_ID: str(),
     JWT_SECRET: str(),
+    GEMINI_API_KEY: str(),
 });
 
 export default env;

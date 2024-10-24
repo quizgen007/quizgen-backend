@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import userController from '../controllers/userController';
+import { getAllUsers } from '../controllers/userController';
 import authMiddleware from '../middlewares/authMiddleware';
 
 const router = Router();
@@ -32,6 +32,6 @@ const router = Router();
  *       400:
  *         description: Bad request
  */
-router.get('/', authMiddleware, userController.getAllUsers);
+router.get('/', authMiddleware, getAllUsers);
 
 export default router;
